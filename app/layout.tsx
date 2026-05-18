@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import ResumeStepper from "./ui/resume-stepper";
+import ResumeContextProvider from "./ui/resume-context-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,12 +24,25 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+ 
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+         {/* <div className="container mx-auto bg-green-500 overflow-hidden"> */}
+          <ResumeContextProvider>
+            <ResumeStepper />
+            <div className="w-full bg-amber-500">
+              {children}
+            </div>
+          </ResumeContextProvider>
+           
+          
+        {/* </div> */}
+        
+      </body>
     </html>
   );
 }
