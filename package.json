@@ -16,7 +16,6 @@
     "@sparticuz/chromium-min": "^148.0.0",
     "next": "^16.2.6",
     "node-html-parser": "^7.1.0",
-    "puppeteer": "^24.43.0",
     "puppeteer-core": "^25.0.4",
     "react": "19.2.4",
     "react-dom": "19.2.4",

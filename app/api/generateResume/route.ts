@@ -1,7 +1,7 @@
 import { ResumeData } from "@/app/models";
 import Chromium from "@sparticuz/chromium-min";
 import { parse } from "node-html-parser";
-import puppeteer from "puppeteer";
+import puppeteer from "puppeteer-core";
 function generateHtmlContent(rData: ResumeData) {
     // Implementation for generating HTML content
     const themeColor = rData.theme || 'slate';
@@ -150,13 +150,11 @@ export async function POST(request: Request) {
         browser = await puppeteer.launch({
         args: Chromium.args,
         //defaultViewport: Chromium.defaultViewport,
-        executablePath: await Chromium.executablePath(
-            `https://github.com/Sparticuz/chromium/releases/download/v148.0.0/chromium-v148.0.0-pack.tar`
-        ),
+        executablePath: await Chromium.executablePath(),
         //headless: Chromium.headless,
     });
         const page = await browser.newPage();
-        await page.setContent(htmlContent,{ waitUntil: 'networkidle0' });
+        await page.setContent(htmlContent,{ waitUntil: 'domcontentloaded' });
         const pdfBuffer = await page.pdf({
         //path: './generated-resume.pdf',
         format: 'A4',
