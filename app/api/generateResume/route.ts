@@ -151,7 +151,7 @@ export async function POST(request: Request) {
         args: Chromium.args,
         //defaultViewport: Chromium.defaultViewport,
         executablePath: await Chromium.executablePath(
-            '/opt/nodejs/node_modules/@sparticuz/chromium/bin'
+            '/opt/nodejs/node_modules/@sparticuz/chromium-min/bin'
         ),
         //headless: Chromium.headless,
     });
