@@ -1,4 +1,5 @@
 import { ResumeData } from "@/app/models";
+import Chromium from "@sparticuz/chromium-min";
 import { parse } from "node-html-parser";
 import puppeteer from "puppeteer";
 function generateHtmlContent(rData: ResumeData) {
@@ -147,10 +148,11 @@ export async function POST(request: Request) {
         const htmlContent = generateHtmlContent(rData);
         //console.log(htmlContent);
         browser = await puppeteer.launch({
-           // ignoreHTTPSErrors: true,
-            executablePath: process.env.CHROME_PATH || '/opt/bin/chromium',
-            args: ['--no-sandbox', '--disable-setuid-sandbox']
-        });
+        args: Chromium.args,
+        //defaultViewport: Chromium.defaultViewport,
+        executablePath: await Chromium.executablePath(),
+        //headless: Chromium.headless,
+    });
         const page = await browser.newPage();
         await page.setContent(htmlContent,{ waitUntil: 'networkidle0' });
         const pdfBuffer = await page.pdf({
