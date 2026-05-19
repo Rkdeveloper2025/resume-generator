@@ -11,6 +11,7 @@ function generateHtmlContent(rData: ResumeData) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resume</title>
+    <link rel="stylesheet" href="https://cloudflare.com">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body>
@@ -38,16 +39,16 @@ leftPanel?.appendChild(parse(`<section id="contact-detail" class="m-4 pb-4"></se
 const contactDetail = root.getElementById("contact-detail");
 contactDetail?.appendChild(parse(`<h2 class="text-xl font-bold text-white border-b border-white">${rData.contactInfo.title ?? 'Contact Information'}</h2>`));
 if (rData.contactInfo.email) {
-    contactDetail?.appendChild(parse(`<p class="text-white text-sm"><span>&#x2709;</span><br/> ${rData.contactInfo.email}</p>`));
+    contactDetail?.appendChild(parse(`<p class="text-white text-sm"><span><i class="fas fa-envelope"></i></span><br/> ${rData.contactInfo.email}</p>`));
 }
 if (rData.contactInfo.phone) {
-    contactDetail?.appendChild(parse(`<p class="text-white text-sm"><span>&#x1F4DE;</span><br/> ${rData.contactInfo.phone}</p>`));
+    contactDetail?.appendChild(parse(`<p class="text-white text-sm"><span><i class="fas fa-mobile"></i></span><br/> ${rData.contactInfo.phone}</p>`));
 }
 if (rData.contactInfo.location) {
-    contactDetail?.appendChild(parse(`<p class="text-white text-sm"><span>&#x1F30E;</span><br/> ${rData.contactInfo.location}</p>`));
+    contactDetail?.appendChild(parse(`<p class="text-white text-sm"><span><i class="fas fa-map-marker-alt"></i></span><br/> ${rData.contactInfo.location}</p>`));
 }
 if (rData.contactInfo.profileLink) {
-    contactDetail?.appendChild(parse(`<p class="text-white text-sm"><span>&#128279;</span><br/> <a href="${rData.contactInfo.profileLink}" target="_blank">${rData.contactInfo.linkTitle ?? 'Profile'}</a></p>`));
+    contactDetail?.appendChild(parse(`<p class="text-white text-sm"><span><i class="fas fa-user"></i></span><br/> <a href="${rData.contactInfo.profileLink}" target="_blank">${rData.contactInfo.linkTitle ?? 'Profile'}</a></p>`));
 }
 //leftPanel.appendChild(contactDetail);
 
