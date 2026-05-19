@@ -140,12 +140,17 @@ return root.toString();
 }
 
 export async function POST(request: Request) {
+    let browser;
     try {
         const rData: ResumeData = await request.json();
        // console.log(JSON.stringify(rData));
         const htmlContent = generateHtmlContent(rData);
         //console.log(htmlContent);
-        const browser = await puppeteer.launch();
+        browser = await puppeteer.launch({
+           // ignoreHTTPSErrors: true,
+            executablePath: process.env.CHROME_PATH || '/opt/bin/chromium',
+            args: ['--no-sandbox', '--disable-setuid-sandbox']
+        });
         const page = await browser.newPage();
         await page.setContent(htmlContent,{ waitUntil: 'networkidle0' });
         const pdfBuffer = await page.pdf({
@@ -165,7 +170,7 @@ export async function POST(request: Request) {
         headerTemplate: '',
         footerTemplate: ''      
     });
-        await browser.close();
+        //await browser.close();
         //console.log("PDF generated successfully",pdfBuffer);
         return new Response(pdfBuffer as BodyInit, {
             headers: {
@@ -177,5 +182,7 @@ export async function POST(request: Request) {
     } catch (error) {
         console.error("Error generating resume:", error);
         return new Response("Error generating resume", { status: 500 });
+    } finally {
+        if (browser) await browser.close();
     }
 }
