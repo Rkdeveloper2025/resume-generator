@@ -150,7 +150,9 @@ export async function POST(request: Request) {
         browser = await puppeteer.launch({
         args: Chromium.args,
         //defaultViewport: Chromium.defaultViewport,
-        executablePath: await Chromium.executablePath(),
+        executablePath: await Chromium.executablePath(
+            '/opt/nodejs/node_modules/@sparticuz/chromium/bin'
+        ),
         //headless: Chromium.headless,
     });
         const page = await browser.newPage();
