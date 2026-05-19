@@ -150,7 +150,9 @@ export async function POST(request: Request) {
         browser = await puppeteer.launch({
         args: Chromium.args,
         //defaultViewport: Chromium.defaultViewport,
-        executablePath: await Chromium.executablePath(),
+        executablePath: await Chromium.executablePath(
+            `https://github.com/Sparticuz/chromium/releases/download/v148.0.0/chromium-v148.0.0-pack.tar`
+        ),
         //headless: Chromium.headless,
     });
         const page = await browser.newPage();
