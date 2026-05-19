@@ -151,7 +151,7 @@ export async function POST(request: Request) {
         args: Chromium.args,
         //defaultViewport: Chromium.defaultViewport,
         executablePath: await Chromium.executablePath(
-            '/opt/nodejs/node_modules/@sparticuz/chromium-min/bin'
+            'https://github.com/gabenunez/puppeteer-on-vercel/raw/refs/heads/main/example/chromium-dont-use-in-prod.tar'
         ),
         //headless: Chromium.headless,
     });
