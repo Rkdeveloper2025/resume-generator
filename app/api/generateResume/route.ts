@@ -154,7 +154,7 @@ export async function POST(request: Request) {
         //headless: Chromium.headless,
     });
         const page = await browser.newPage();
-        await page.setContent(htmlContent,{ waitUntil: undefined });
+        await page.setContent(htmlContent,{ waitUntil: 'domcontentloaded' });
         const pdfBuffer = await page.pdf({
         //path: './generated-resume.pdf',
         format: 'A4',
