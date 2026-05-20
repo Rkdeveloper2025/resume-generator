@@ -45,7 +45,7 @@ if (rData.contactInfo.phone) {
     contactDetail?.appendChild(parse(`<p class="text-white text-sm"><span><i class="fa fa-phone"></i></span><br/> ${rData.contactInfo.phone}</p>`));
 }
 if (rData.contactInfo.location) {
-    contactDetail?.appendChild(parse(`<p class="text-white text-sm"><span><i class="fa fa-map-marker-alt"></i></span><br/> ${rData.contactInfo.location}</p>`));
+    contactDetail?.appendChild(parse(`<p class="text-white text-sm"><span><i class="fa fa-map-marker"></i></span><br/> ${rData.contactInfo.location}</p>`));
 }
 if (rData.contactInfo.profileLink) {
     contactDetail?.appendChild(parse(`<p class="text-white text-sm"><span><i class="fa fa-user"></i></span><br/> <a href="${rData.contactInfo.profileLink}" target="_blank">${rData.contactInfo.linkTitle ?? 'Profile'}</a></p>`));
