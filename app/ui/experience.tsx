@@ -105,7 +105,7 @@ export function ExperienceSet({index,register,remove,control}:{index:number,regi
                     )}
                 />
             </div>
-            <div className="flex justify-end md:col-span-2 mt-5">
+            <div className="flex justify-end md:col-span-2 mt-10 md:mt-5">
                 <button 
                     type="button" 
                     onClick={() => remove(index)}
