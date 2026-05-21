@@ -45,7 +45,7 @@ export default function ProjectStep() {
                             <input
                                 type="text"
                                 id="title"
-                                placeholder="e.g., Software Engineer"
+                                placeholder="e.g., Project Undertaken"
                                 defaultValue={resumeData.projects.title}
                                 className="w-full h-12 px-4 bg-white/5 border border-white/20 rounded-lg text-white placeholder-slate-400 focus:bg-white/10 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition-all outline-none"
                                 {...register("title")}
