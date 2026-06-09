@@ -21,12 +21,14 @@ export default function PreviewStep() {
 
             try {
                 setLoading(true);
+                const formData = new FormData();
+                formData.append('resumeData', JSON.stringify({ ...resumeData, theme: selectedTheme }));
                 const response = await fetch('/api/generateResume', {
                     method: 'POST',
-                    headers: {
+                    /* headers: {
                         'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ ...resumeData, theme: selectedTheme })
+                    }, */
+                    body: formData
                 });
 
                 if (!response.ok) {

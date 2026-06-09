@@ -20,7 +20,20 @@ function generateHtmlContent(rData: ResumeData) {
 </body>
 </html>`);
 const container = root.querySelector("div")!;
-if (rData?.heading) {
+if (rData?.heading?.profileImage) {
+    // Handle profile image logic if needed
+    const heading = parse(`<div class="flex w-full bg-${themeColor}-600 p-4 shadow-sm shadow-black-300 rounded-t-lg">
+            <div class="w-[30%]">
+                <img src="${rData.heading.profileImage}" alt="Profile Image" class="m-auto w-30 h-30 rounded-full object-cover border-4 border-white">
+            </div>
+            <div class="w-[70%] p-4">
+                <h1 class="text-3xl font-bold text-white">${rData.heading.name}</h1>
+                <h2 class="text-md font-semibold text-white ml-auto">${rData.heading.title}</h2>
+            </div>
+        </div>`);
+    container.appendChild(heading);
+}
+else if (rData?.heading) {
     const heading = parse(`<div class="w-full bg-${themeColor}-600 p-4 shadow-sm shadow-black-300 rounded-t-lg">
         <h1 class="text-3xl font-bold text-white">${rData.heading.name}</h1>
         <h2 class="text-md font-semibold text-white ml-auto">${rData.heading.title}</h2>
@@ -144,18 +157,17 @@ return root.toString();
 export async function POST(request: Request) {
     let browser;
     try {
-        const rData: ResumeData = await request.json();
+        const formData = await request.formData();
+        const rData: ResumeData = JSON.parse(formData.get('resumeData') as string);
        // console.log(JSON.stringify(rData));
         const htmlContent = generateHtmlContent(rData);
         //console.log(htmlContent);
         browser = await puppeteer.launch({
-        args: Chromium.args,
-        //defaultViewport: Chromium.defaultViewport,
-        executablePath: await Chromium.executablePath(
-            'https://github.com/gabenunez/puppeteer-on-vercel/raw/refs/heads/main/example/chromium-dont-use-in-prod.tar'
-        ),
-        //headless: Chromium.headless,
-    });
+            args: Chromium.args,
+            executablePath: await Chromium.executablePath(
+                'https://github.com/gabenunez/puppeteer-on-vercel/raw/refs/heads/main/example/chromium-dont-use-in-prod.tar'
+            ),
+        });
         const page = await browser.newPage();
         await page.setContent(htmlContent,{ waitUntil: 'load' });
         const pdfBuffer = await page.pdf({

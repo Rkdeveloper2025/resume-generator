@@ -25,6 +25,7 @@ export interface ResumeContext {
 export interface ResumeHeading{
     name: string;
     title: string;
+    profileImage?: string|null;
 }
 export interface ContactInfo {
     title: string;

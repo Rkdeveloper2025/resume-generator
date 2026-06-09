@@ -2,7 +2,7 @@
 import { ResumeData, ResumeHeading } from "./models";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ResumeDataContext } from "./services/form-context";
 import NavigationPanel from "./ui/navigation-panel";
 import StepHeading from "./ui/step-heading";
@@ -12,13 +12,30 @@ export default function Home() {
     const router = useRouter()
     const {register, formState: { errors }, handleSubmit} = useForm<ResumeHeading>();
     const {resumeData,setResumeData} = useContext(ResumeDataContext);
-    //console.log('Data=>',resumeData);
-    const onSubmit:SubmitHandler<ResumeHeading> = (data) => {
-       // console.log(data);
-        const updatedResumeData:ResumeData = {...resumeData,currentIndex:1, heading: data};
-        setResumeData(updatedResumeData);
+    const [profilePreview, setProfilePreview] = useState<string | null>(resumeData?.heading?.profileImage || null);
+    
+    
+    const handleProfileImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      
+      if (!file) {
+        setProfilePreview(null);
+        
+        return;
+      }
 
-        router.push("/contact");
+      
+      const reader = new FileReader();
+      reader.onload = (e) => setProfilePreview(e.target?.result as string);
+      reader.readAsDataURL(file);
+    };
+
+    const onSubmit:SubmitHandler<ResumeHeading> = (data) => {
+      data.profileImage = profilePreview;
+      const updatedResumeData:ResumeData = {...resumeData,currentIndex:1, heading: data};
+       setResumeData(updatedResumeData);
+
+       router.push("/contact");
     };
 
   return (
@@ -29,9 +46,6 @@ export default function Home() {
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="bg-white/10 backdrop-blur-md rounded-xl border border-white/20 shadow-2xl p-8 sm:p-10">
-          {/* <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">Heading</h2>
-          <p className="text-slate-300 text-sm mb-8">(Top of the resume)</p> */}
-
           <form className="w-full space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Name Field */}
@@ -72,6 +86,49 @@ export default function Home() {
                     <span className="mr-1">⚠</span> {errors.title.message}
                   </p>
                 )}
+              </div>
+
+              {/* Profile image upload */}
+              <div className="md:col-span-2">
+                <label htmlFor="profileImage" className="block text-sm font-semibold text-white mb-2">
+                  Profile Image
+                </label>
+                <div className="rounded-3xl border border-dashed border-white/20 bg-white/5 p-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <div>
+                      <p aria-label="profile image description" className="text-sm text-slate-300">
+                        Upload a clean, professional headshot for your resume.
+                      </p>
+                      <p aria-label="profile image guidelines" className="text-xs text-slate-500 mt-1">
+                        Recommended: JPG or PNG, max 2MB.
+                      </p>
+                    </div>
+                    <label
+                      htmlFor="profileImage"
+                      className="inline-flex items-center justify-center rounded-lg border border-white/20 bg-slate-950/80 px-4 py-2 text-sm font-medium text-white hover:bg-slate-900 transition"
+                    >
+                      Choose File
+                    </label>
+                  </div>
+
+                  <input
+                    type="file"
+                    id="profileImage"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleProfileImageChange}
+                  />
+
+                  {profilePreview && (
+                    <div className="mt-4 w-28 h-28 overflow-hidden rounded-2xl border border-white/10 bg-slate-950">
+                      <img
+                        src={profilePreview}
+                        alt="Profile preview"
+                        className="object-cover w-full h-full"
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
