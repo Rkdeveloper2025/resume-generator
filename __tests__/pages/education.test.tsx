@@ -42,6 +42,22 @@ describe('Education Step', () => {
         renderEducationStepComponent();
         expect(screen.getByLabelText('Title')).toBeInTheDocument();
     });
+    it('Title field should be of minimum length 2', async () => {
+        renderEducationStepComponent();
+        const titleField = screen.getByLabelText('Title');
+        fireEvent.change(titleField, { target: { value: 'A' } });
+        const saveButton = screen.getByText('Save & Continue');
+        fireEvent.click(saveButton);
+        expect(await waitFor(() => screen.getByText('Title must be at least 2 characters long'))).toBeInTheDocument();
+    });
+    it('Title field should be of maximum length 100', async () => {
+        renderEducationStepComponent();
+        const titleField = screen.getByLabelText('Title');
+        fireEvent.change(titleField, { target: { value: 'A'.repeat(101) } });
+        const saveButton = screen.getByText('Save & Continue');
+        fireEvent.click(saveButton);
+        expect(await waitFor(() => screen.getByText('Title must be less than 100 characters long'))).toBeInTheDocument();
+    });
     it('On click of the Add Education button it should add a new education entry', async () => {
         renderEducationStepComponent();
         const addEducationButton = screen.getByText('Add Education');

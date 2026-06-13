@@ -3,7 +3,7 @@ import { Education, Institution } from "../models";
 import { ResumeDataContext } from "../services/form-context";
 import { useContext } from "react";
 
-export default function InstitutionComp({index,register,remove}:{index:number,register:UseFormRegister<Education>,remove:UseFieldArrayRemove}) {
+export default function InstitutionComp({index,register,remove,errors}:{index:number,register:UseFormRegister<Education>,remove:UseFieldArrayRemove,errors: any}) {
    const { resumeData, setResumeData } = useContext(ResumeDataContext);
     return (
         <>
@@ -22,8 +22,13 @@ export default function InstitutionComp({index,register,remove}:{index:number,re
                     id={`institution-${index}`}
                     defaultValue={resumeData.education.list[index]?.name}
                     className="w-full h-12 px-4 bg-white/5 border border-white/20 rounded-lg text-white placeholder-slate-400 focus:bg-white/10 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition-all outline-none"
-                    {...register(`list.${index}.name`)}
+                    {...register(`list.${index}.name`, { minLength: { value: 2, message: "Institution must be at least 2 characters long" }, maxLength: { value: 100, message: "Institution must be less than 100 characters long" } })}
                 />
+                {errors.list?.[index]?.name && (
+                    <p className="text-red-400 text-xs mt-2 flex items-center">
+                        <span className="mr-1">⚠</span> {errors.list[index].name.message}
+                    </p>
+                )}
             </div>
             <div className="mb-4">
                 <label htmlFor={`institution-${index}`} className="block text-sm font-semibold text-white mb-2">
@@ -34,8 +39,13 @@ export default function InstitutionComp({index,register,remove}:{index:number,re
                     id={`institution-${index}`}
                     defaultValue={resumeData.education.list[index]?.degree}
                     className="w-full h-12 px-4 bg-white/5 border border-white/20 rounded-lg text-white placeholder-slate-400 focus:bg-white/10 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition-all outline-none"
-                    {...register(`list.${index}.degree`)}
+                    {...register(`list.${index}.degree`, { minLength: { value: 2, message: "Degree must be at least 2 characters long" }, maxLength: { value: 100, message: "Degree must be less than 100 characters long" } })}
                 />
+                {errors.list?.[index]?.degree && (
+                    <p className="text-red-400 text-xs mt-2 flex items-center">
+                        <span className="mr-1">⚠</span> {errors.list[index].degree.message}
+                    </p>
+                )}
             </div>
             <div className="mb-4">
                 <label htmlFor={`from-${index}`} className="block text-sm font-semibold text-white mb-2">
@@ -82,8 +92,13 @@ export default function InstitutionComp({index,register,remove}:{index:number,re
                     id={`link-${index}`}
                     defaultValue={resumeData.education.list[index]?.link}
                     className="w-full h-12 px-4 bg-white/5 border border-white/20 rounded-lg text-white placeholder-slate-400 focus:bg-white/10 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition-all outline-none"
-                    {...register(`list.${index}.link`)}
+                    {...register(`list.${index}.link`,{pattern: { value: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/, message: "Please enter a valid URL" }})}
                 />
+                {errors.list?.[index]?.link && (
+                    <p className="text-red-400 text-xs mt-2 flex items-center">
+                        <span className="mr-1">⚠</span> {errors.list[index].link.message}
+                    </p>
+                )}
             </div>
 
             <div className="flex justify-end md:col-span-2">

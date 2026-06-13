@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import 'react-quill-new/dist/quill.snow.css';
 
 
-export function ExperienceSet({index,register,remove,control}:{index:number,register:UseFormRegister<Experience>,remove:UseFieldArrayRemove,control:any})
+export function ExperienceSet({index,register,remove,control,errors}:{index:number,register:UseFormRegister<Experience>,remove:UseFieldArrayRemove,control:any,errors:any})
  {
     const { resumeData, setResumeData } = useContext(ResumeDataContext);
     const ReactQuill = dynamic(() => import('react-quill-new'), { 
@@ -30,8 +30,13 @@ export function ExperienceSet({index,register,remove,control}:{index:number,regi
                     id={`company-${index}`}
                     defaultValue={resumeData.experience.experienceSet[index]?.company}
                     className="w-full h-12 px-4 bg-white/5 border border-white/20 rounded-lg text-white placeholder-slate-400 focus:bg-white/10 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition-all outline-none"
-                    {...register(`experienceSet.${index}.company`)}
+                    {...register(`experienceSet.${index}.company`, { minLength: { value: 2, message: "Company must be at least 2 characters long" }, maxLength: { value: 100, message: "Company must not exceed 100 characters" } })}
                 />
+                {errors.experienceSet?.[index]?.company && (
+                    <p className="text-red-400 text-xs mt-2 flex items-center">
+                        <span className="mr-1">⚠</span> {errors.experienceSet[index].company.message}
+                    </p>
+                )}
             </div>
             <div className="mb-4">
                 <label htmlFor={`position-${index}`} className="block text-sm font-semibold text-white mb-2">
@@ -42,8 +47,13 @@ export function ExperienceSet({index,register,remove,control}:{index:number,regi
                     id={`position-${index}`}
                     defaultValue={resumeData.experience.experienceSet[index]?.position}
                     className="w-full h-12 px-4 bg-white/5 border border-white/20 rounded-lg text-white placeholder-slate-400 focus:bg-white/10 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition-all outline-none"
-                    {...register(`experienceSet.${index}.position`)}
+                    {...register(`experienceSet.${index}.position`, { minLength: { value: 2, message: "Position must be at least 2 characters long" }, maxLength: { value: 100, message: "Position must not exceed 100 characters" } })}
                 />
+                {errors.experienceSet?.[index]?.position && (
+                    <p className="text-red-400 text-xs mt-2 flex items-center">
+                        <span className="mr-1">⚠</span> {errors.experienceSet[index].position.message}
+                    </p>
+                )}
             </div>
             <div className="mb-4">
                 <label htmlFor={`from-${index}`} className="block text-sm font-semibold text-white mb-2">
@@ -78,8 +88,13 @@ export function ExperienceSet({index,register,remove,control}:{index:number,regi
                     id={`location-${index}`}
                     defaultValue={resumeData.experience.experienceSet[index]?.location}
                     className="w-full h-12 px-4 bg-white/5 border border-white/20 rounded-lg text-white placeholder-slate-400 focus:bg-white/10 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition-all outline-none"
-                    {...register(`experienceSet.${index}.location`)}
+                    {...register(`experienceSet.${index}.location`, { minLength: { value: 2, message: "Location must be at least 2 characters long" }, maxLength: { value: 100, message: "Location must not exceed 100 characters" } })}
                 />
+                {errors.experienceSet?.[index]?.location && (
+                    <p className="text-red-400 text-xs mt-2 flex items-center">
+                        <span className="mr-1">⚠</span> {errors.experienceSet[index].location.message}
+                    </p>
+                )}
             </div>  
             
             <div className="mb-4 md:col-span-2">

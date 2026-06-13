@@ -3,7 +3,7 @@ import { Skills } from "../models";
 import { ResumeDataContext } from "../services/form-context";
 import { useContext, useState } from "react";
 
-export function Skill({ index, register, remove }: { index: number; register: UseFormRegister<Skills>; remove: UseFieldArrayRemove }) {
+export function Skill({ index, register, remove, errors }: { index: number; register: UseFormRegister<Skills>; remove: UseFieldArrayRemove; errors: any }) {
   const { resumeData } = useContext(ResumeDataContext);
   const [open, setOpen] = useState(true);
 
@@ -59,8 +59,13 @@ export function Skill({ index, register, remove }: { index: number; register: Us
                 id={`skill-${index}`}
                 defaultValue={title}  
                 className="w-full h-12 px-4 bg-white/5 border border-white/20 rounded-lg text-white placeholder-slate-400 focus:bg-white/10 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition-all outline-none"
-                {...register(`skillGroups.${index}.title`)}
+                {...register(`skillGroups.${index}.title`,{minLength: {value: 2, message: "Skill must be at least 2 characters long"}, maxLength: {value: 100, message: "Skill must be less than 100 characters long"}})}
               />
+              {errors.skillGroups?.[index]?.title && (
+                <p className="text-red-400 text-xs mt-2 flex items-center">
+                  <span className="mr-1">⚠</span> {errors.skillGroups[index].title.message}
+                </p>
+              )}
             </div>
 
             <div className="mb-4">

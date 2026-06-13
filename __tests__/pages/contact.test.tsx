@@ -42,20 +42,44 @@ describe('Contact Page', () => {
     renderContactComponent();
     expect(screen.getByLabelText('Title')).toBeInTheDocument();
   });
+  it('Title field should have minimum length requirement', async () => {
+    renderContactComponent();
+    fireEvent.change(screen.getByLabelText('Title'), { target: { value: 'J' } });
+    fireEvent.click(screen.getByText('Save & Continue'));
+    expect(await waitFor(() => screen.getByText('Title must be at least 2 characters long'))).toBeInTheDocument();
+  });
+  it('Title field should have maximum length requirement', async () => {
+    renderContactComponent();
+    fireEvent.change(screen.getByLabelText('Title'), { target: { value: 'A'.repeat(101) } });
+    fireEvent.click(screen.getByText('Save & Continue'));
+    expect(await waitFor(() => screen.getByText('Title must be less than 100 characters long'))).toBeInTheDocument();
+  });
   it('Email field is required', async() => {
     renderContactComponent();
     fireEvent.click(screen.getByText('Save & Continue'));
-    expect(await waitFor(() => screen.getByText('Email is required')));
+    expect(await waitFor(() => screen.getByText('Email is required'))).toBeInTheDocument();
   });
   it('Phone field is required', async() => {
     renderContactComponent();
     fireEvent.click(screen.getByText('Save & Continue'));
-    expect(await waitFor(() => screen.getByText('Phone is required')));
+    expect(await waitFor(() => screen.getByText('Phone is required'))).toBeInTheDocument();
   });
   it('Location field is required', async() => {
     renderContactComponent();
     fireEvent.click(screen.getByText('Save & Continue'));
-    expect(await waitFor(() => screen.getByText('Location is required')));
+    expect(await waitFor(() => screen.getByText('Location is required'))).toBeInTheDocument();
+  });
+  it('Location field should have minimum length requirement', async () => {
+    renderContactComponent();
+    fireEvent.change(screen.getByLabelText('Location *'), { target: { value: 'J' } });
+    fireEvent.click(screen.getByText('Save & Continue'));
+    expect(await waitFor(() => screen.getByText('Location must be at least 2 characters long'))).toBeInTheDocument();
+  });
+  it('Location field should have maximum length requirement', async () => {
+    renderContactComponent();
+    fireEvent.change(screen.getByLabelText('Location *'), { target: { value: 'A'.repeat(101) } });
+    fireEvent.click(screen.getByText('Save & Continue'));
+    expect(await waitFor(() => screen.getByText('Location must be less than 100 characters long'))).toBeInTheDocument();
   });
   it('Checks if profile link is rendered', () => {
     renderContactComponent();
@@ -64,6 +88,18 @@ describe('Contact Page', () => {
   it('Checks if the link title is rendered', () => {
     renderContactComponent();
     expect(screen.getByText('Link Title')).toBeInTheDocument();
+  });
+  it('Link Title field should have minimum length requirement', async () => {
+    renderContactComponent();
+    fireEvent.change(screen.getByLabelText('Link Title'), { target: { value: 'J' } });
+    fireEvent.click(screen.getByText('Save & Continue'));
+    expect(await waitFor(() => screen.getByText('Link title must be at least 2 characters long'))).toBeInTheDocument();
+  });
+  it('Link Title field should have maximum length requirement', async () => {
+    renderContactComponent();
+    fireEvent.change(screen.getByLabelText('Link Title'), { target: { value: 'A'.repeat(101) } });
+    fireEvent.click(screen.getByText('Save & Continue'));
+    expect(await waitFor(() => screen.getByText('Link title must be less than 100 characters long'))).toBeInTheDocument();
   });
   it ('Back button is rendered and enabled', () => {
     renderContactComponent();

@@ -59,7 +59,7 @@ export default function Home() {
                   defaultValue={resumeData.heading.name}
                   placeholder="John Doe"
                   className="w-full h-11 px-4 bg-white/5 border border-white/20 rounded-lg text-white placeholder-slate-400 focus:bg-white/10 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition-all outline-none"
-                  {...register("name", { required: "Name is required" })}
+                  {...register("name", { required: "Name is required", minLength: { value: 2, message: "Name must be at least 2 characters long" }, maxLength: { value: 100, message: "Name must be less than 100 characters long" } })}
                 />
                 {errors.name && (
                   <p className="text-red-400 text-xs mt-2 flex items-center">
@@ -79,7 +79,7 @@ export default function Home() {
                   placeholder="Senior Developer"
                   defaultValue={resumeData.heading.title}
                   className="w-full h-11 px-4 bg-white/5 border border-white/20 rounded-lg text-white placeholder-slate-400 focus:bg-white/10 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition-all outline-none"
-                  {...register("title", { required: "Title is required" })}
+                  {...register("title", { required: "Title is required", minLength: { value: 2, message: "Title must be at least 2 characters long" }, maxLength: { value: 100, message: "Title must be less than 100 characters long" } })}
                 />
                 {errors.title && (
                   <p className="text-red-400 text-xs mt-2 flex items-center">

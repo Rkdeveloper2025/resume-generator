@@ -44,8 +44,13 @@ export default function ContactPage() {
                                     placeholder="e.g., Contact"
                                     defaultValue={resumeData.contactInfo.title}
                                     className="w-full h-11 px-4 bg-white/5 border border-white/20 rounded-lg text-white placeholder-slate-400 focus:bg-white/10 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition-all outline-none"
-                                    {...register("title")}
+                                    {...register("title",{minLength: { value: 2, message: "Title must be at least 2 characters long" }, maxLength: { value: 100, message: "Title must be less than 100 characters long" } })}
                                 />
+                                {errors.title && (
+                                    <p className="text-red-400 text-xs mt-2 flex items-center">
+                                        <span className="mr-1">⚠</span> {errors.title.message}
+                                    </p>
+                                )}
                             </div>
 
                             {/* Email Field */}
@@ -99,7 +104,7 @@ export default function ContactPage() {
                                     placeholder="City, State, Country"
                                     defaultValue={resumeData.contactInfo.location}
                                     className="w-full h-11 px-4 bg-white/5 border border-white/20 rounded-lg text-white placeholder-slate-400 focus:bg-white/10 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition-all outline-none"
-                                    {...register("location", { required: "Location is required" })}
+                                    {...register("location", { required: "Location is required", minLength: { value: 2, message: "Location must be at least 2 characters long" }, maxLength: { value: 100, message: "Location must be less than 100 characters long" } })}
                                 />
                                 {errors.location && (
                                     <p className="text-red-400 text-xs mt-2 flex items-center">
@@ -119,8 +124,13 @@ export default function ContactPage() {
                                     defaultValue={resumeData.contactInfo.profileLink}
                                     placeholder="https://linkedin.com/in/yourprofile"
                                     className="w-full h-11 px-4 bg-white/5 border border-white/20 rounded-lg text-white placeholder-slate-400 focus:bg-white/10 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition-all outline-none"
-                                    {...register("profileLink")}
+                                    {...register("profileLink", { pattern: { value: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/, message: "Please enter a valid URL" } })}
                                 />
+                                {errors.profileLink && (
+                                    <p className="text-red-400 text-xs mt-2 flex items-center">
+                                        <span className="mr-1">⚠</span> {errors.profileLink.message}
+                                    </p>
+                                )}
                             </div>
 
                             {/* Link Title Field */}
@@ -134,8 +144,13 @@ export default function ContactPage() {
                                     placeholder="LinkedIn"
                                     defaultValue={resumeData.contactInfo.linkTitle}
                                     className="w-full h-11 px-4 bg-white/5 border border-white/20 rounded-lg text-white placeholder-slate-400 focus:bg-white/10 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition-all outline-none"
-                                    {...register("linkTitle")}
+                                    {...register("linkTitle", { minLength: { value: 2, message: "Link title must be at least 2 characters long" }, maxLength: { value: 100, message: "Link title must be less than 100 characters long" } })}
                                 />
+                                {errors.linkTitle && (
+                                    <p className="text-red-400 text-xs mt-2 flex items-center">
+                                        <span className="mr-1">⚠</span> {errors.linkTitle.message}
+                                    </p>
+                                )}
                             </div>
                         </div>
 

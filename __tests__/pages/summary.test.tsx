@@ -42,12 +42,49 @@ describe('Summary Step', () => {
         renderSummaryStepComponent();
         expect(screen.getByLabelText('Title')).toBeInTheDocument();
     });
+    it('Title field should be of minimum length 2', async () => {
+        renderSummaryStepComponent();
+        const titleField = screen.getByLabelText('Title');
+        fireEvent.change(titleField, { target: { value: 'A' } });
+        const saveButton = screen.getByText('Save & Continue');
+        fireEvent.click(saveButton);
+        expect(await waitFor(() => screen.getByText('Title must be at least 2 characters long'))).toBeInTheDocument();
+    });
+    it('Title field should be of maximum length 100', async () => {
+        renderSummaryStepComponent();
+        const titleField = screen.getByLabelText('Title');
+        fireEvent.change(titleField, { target: { value: 'A'.repeat(101) } });
+        const saveButton = screen.getByText('Save & Continue');
+        fireEvent.click(saveButton);
+        expect(await waitFor(() => screen.getByText('Title must be less than 100 characters long'))).toBeInTheDocument();
+    });
     it('Professional Summary field is rendered and it is required', async() => {
         renderSummaryStepComponent();
         expect(screen.getByLabelText('Professional Summary *')).toBeInTheDocument();
-        fireEvent.click(screen.getByText('Save & Continue'));
+        const saveButton = screen.getByText('Save & Continue');
+        fireEvent.click(saveButton);
         await waitFor(() => {
             expect(screen.getByText('Professional summary is required')).toBeInTheDocument();
+        });
+    });
+    it('Professional Summary field should have a minimum length of 10 characters', async() => {
+        renderSummaryStepComponent();
+        const descriptionField = screen.getByLabelText('Professional Summary *');
+        fireEvent.change(descriptionField, { target: { value: 'A'.repeat(9) } });
+        const saveButton = screen.getByText('Save & Continue');
+        fireEvent.click(saveButton);
+        await waitFor(() => {
+            expect(screen.getByText('Professional summary must be at least 10 characters long')).toBeInTheDocument();
+        });
+    });
+    it('Professional Summary field should have a maximum length of 1000 characters', async() => {
+        renderSummaryStepComponent();
+        const descriptionField = screen.getByLabelText('Professional Summary *');
+        fireEvent.change(descriptionField, { target: { value: 'A'.repeat(1001) } });
+        const saveButton = screen.getByText('Save & Continue');
+        fireEvent.click(saveButton);
+        await waitFor(() => {
+            expect(screen.getByText('Professional summary must be less than 1000 characters long')).toBeInTheDocument();
         });
     });
     it('Back button is rendered and enabled', () => {
