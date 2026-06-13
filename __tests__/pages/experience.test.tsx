@@ -42,6 +42,22 @@ describe('Experience Step', () => {
         renderExperienceStepComponent();
         expect(screen.getByLabelText('Title')).toBeInTheDocument();
     });
+    it('Title field should be of minimum length 2', async() => {
+        renderExperienceStepComponent();
+        const titleField = screen.getByLabelText('Title');
+        fireEvent.change(titleField, { target: { value: 'A' } });
+        const saveButton = screen.getByText('Save & Continue');
+        fireEvent.click(saveButton);
+        expect(await waitFor(() => screen.getByText('Title must be at least 2 characters long'))).toBeInTheDocument();
+    });
+    it('Title field should have maximum length 100', async () => {
+        renderExperienceStepComponent();
+        const titleField = screen.getByLabelText('Title');
+        fireEvent.change(titleField, { target: { value: 'A'.repeat(101) } });
+        const saveButton = screen.getByText('Save & Continue');
+        fireEvent.click(saveButton);
+        expect(await waitFor(() => screen.getByText('Title must not exceed 100 characters'))).toBeInTheDocument();
+    });
     it('On click of the Add Experience button it should add a new experience entry', async () => {
         renderExperienceStepComponent();
         const addExperienceButton = screen.getByText('Add Experience');

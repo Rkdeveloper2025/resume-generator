@@ -51,14 +51,19 @@ export default function ExperienceStep() {
                                 placeholder="e.g., Experience & Responsibilities"
                                 defaultValue={resumeData.experience.title}
                                 className="w-full h-12 px-4 bg-white/5 border border-white/20 rounded-lg text-white placeholder-slate-400 focus:bg-white/10 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition-all outline-none"
-                                {...register("title")}
+                                {...register("title",{minLength:{value:2,message:"Title must be at least 2 characters long"},maxLength:{value:100,message:"Title must not exceed 100 characters"}})}
                             />
+                            {errors.title && (
+                                <p className="text-red-400 text-xs mt-2 flex items-center">
+                                    <span className="mr-1">⚠</span> {errors.title.message}
+                                </p>
+                            )}
                         </div>
 
                         {/* Experience Sets */}
                         <div className="space-y-4">
                             {fields.map((field,index) => (
-                                <ExperienceSet key={field.id} index={index} register={register} remove={remove} control={control} />
+                                <ExperienceSet key={field.id} index={index} register={register} remove={remove} control={control} errors={errors} />
                             ))}
                         </div>
 

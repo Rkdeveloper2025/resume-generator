@@ -48,14 +48,19 @@ export default function ProjectStep() {
                                 placeholder="e.g., Software Engineer"
                                 defaultValue={resumeData.projects.title}
                                 className="w-full h-12 px-4 bg-white/5 border border-white/20 rounded-lg text-white placeholder-slate-400 focus:bg-white/10 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition-all outline-none"
-                                {...register("title")}
+                                {...register("title",{minLength: {value: 2, message: "Title must be at least 2 characters long"},maxLength: {value: 100, message: "Title must be less than 100 characters long"}})}
                             />
+                            {errors.title && (
+                                <p className="text-red-400 text-xs mt-2 flex items-center">
+                                    <span className="mr-1">⚠</span> {errors.title.message}
+                                </p>
+                            )}
                         </div>
 
                         {/* Project List */}
                         <div className="space-y-4">
                             {fields.map((field,index) => (
-                                <Project key={field.id} index={index} register={register} remove={remove} />
+                                <Project key={field.id} index={index} register={register} remove={remove} errors={errors} />
                             ))}
                         </div>
 

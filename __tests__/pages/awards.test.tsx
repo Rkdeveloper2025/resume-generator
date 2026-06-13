@@ -42,6 +42,18 @@ describe('Awards Step Component', () => {
         renderAwardsStepComponent();
         expect(screen.getByLabelText('Title')).toBeInTheDocument();
     });
+    it('Title field should have minimum length requirement', async () => {
+        renderAwardsStepComponent();
+        fireEvent.change(screen.getByLabelText('Title'), { target: { value: 'J' } });
+        fireEvent.click(screen.getByText('Save & Continue'));
+        expect(await waitFor(() => screen.getByText('Title must be at least 2 characters long'))).toBeInTheDocument();
+    });
+    it('Title field should have maximum length requirement', async () => {
+        renderAwardsStepComponent();
+        fireEvent.change(screen.getByLabelText('Title'), { target: { value: 'A'.repeat(101) } });
+        fireEvent.click(screen.getByText('Save & Continue'));
+        expect(await waitFor(() => screen.getByText('Title must be less than 100 characters long'))).toBeInTheDocument();
+    });
     it('On click of the Add Achievement button it should add a new achievement entry', async () => {
         renderAwardsStepComponent();
         const addAchievementButton = screen.getByText('Add Achievement');

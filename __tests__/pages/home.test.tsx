@@ -45,10 +45,34 @@ describe('Home Page', () => {
     fireEvent.click(screen.getByText('Save & Continue'));
     expect(await waitFor(() => screen.getByText('Name is required'))).toBeInTheDocument();
   })
+  it('Full name field should have minimum length requirement', async() => {
+    renderHomeComponent();
+    fireEvent.change(screen.getByLabelText('Full Name *'), { target: { value: 'J' } });
+    fireEvent.click(screen.getByText('Save & Continue'));
+    expect(await waitFor(() => screen.getByText('Name must be at least 2 characters long'))).toBeInTheDocument();
+  })
+  it('Full name field should have maximum length requirement', async() => {
+    renderHomeComponent();
+    fireEvent.change(screen.getByLabelText('Full Name *'), { target: { value: 'A'.repeat(101) } });
+    fireEvent.click(screen.getByText('Save & Continue'));
+    expect(await waitFor(() => screen.getByText('Name must be less than 100 characters long'))).toBeInTheDocument();
+  })
   it ('Professional title field should be required', async () => {
     renderHomeComponent();
     fireEvent.click(screen.getByText('Save & Continue'));
     expect(await waitFor(() => screen.getByText('Title is required'))).toBeInTheDocument();
+  })
+  it ('Professional title field should have minimum length requirement', async () => {
+    renderHomeComponent();
+    fireEvent.change(screen.getByLabelText('Professional Title *'), { target: { value: 'J' } });
+    fireEvent.click(screen.getByText('Save & Continue'));
+    expect(await waitFor(() => screen.getByText('Title must be at least 2 characters long'))).toBeInTheDocument();
+  })
+  it ('Professional title field should have maximum length requirement', async () => {
+    renderHomeComponent();
+    fireEvent.change(screen.getByLabelText('Professional Title *'), { target: { value: 'A'.repeat(101) } });
+    fireEvent.click(screen.getByText('Save & Continue'));
+    expect(await waitFor(() => screen.getByText('Title must be less than 100 characters long'))).toBeInTheDocument();
   })
   it ('Save & Continue field should lead to contact route on successful submission', async () => {
     renderHomeComponent();
